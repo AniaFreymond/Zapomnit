@@ -1,4 +1,3 @@
-/* General container and body styling */
 body, html {
     margin: 0;
     padding: 0;
@@ -12,12 +11,11 @@ body, html {
     padding: 20px;
 }
 
-/* Styling for each flashcard */
 .flashcard {
     width: 150px;
     height: 150px;
     margin: 10px;
-    perspective: 1000px; /* Needed for the flip effect */
+    perspective: 1000px;
     cursor: pointer;
 }
 
