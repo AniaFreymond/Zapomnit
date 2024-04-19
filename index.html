@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapomnit</title>
+    <title>Zapomnit: Math Flashcards</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)']],
+          displayMath: [['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        },
+        startup: {
+          pageReady: function () {
+            return MathJax.startup.defaultPageReady().then(function () {
+              document.getElementById('addCard').addEventListener('click', function () {
+                MathJax.typesetPromise();
+              });
+            });
+          }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Zapomnit</h1>
+        <h1>Zapomnit: Math Flashcards</h1>
         <div class="card-input">
             <input type="text" id="term" placeholder="Enter Term">
-            <textarea id="definition" placeholder="Enter Definition"></textarea>
-            <button onclick="addCard()">Add Card</button>
+            <textarea id="definition" placeholder="Enter Definition (use LaTeX for math, e.g., \\(x^2\\))"></textarea>
+            <button id="addCard" onclick="addCard()">Add Card</button>
         </div>
         <div class="card-display">
             <button onclick="showCard()">Show Flashcard</button>
