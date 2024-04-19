@@ -19,7 +19,7 @@ function addOrUpdateCard() {
         document.getElementById('term').value = '';
         document.getElementById('definition').value = '';
         updateCardList();
-        MathJax.typesetPromise();
+        MathJax.typesetPromise();  // Ensure MathJax re-typesets after updating DOM
     } else {
         alert('Please enter both term and definition.');
     }
@@ -31,7 +31,7 @@ function showCard() {
         const flashcardDiv = document.getElementById('flashcard');
         flashcardDiv.innerHTML = `<strong>${card.term}</strong><p>${card.definition}</p>`;
         flashcardDiv.style.display = 'block';
-        MathJax.typesetPromise();
+        MathJax.typesetPromise();  // Ensure MathJax re-typesets after updating DOM
     } else {
         alert('No flashcards available. Add some and try again.');
     }
@@ -46,6 +46,7 @@ function updateCardList() {
         listItem.onclick = function() {
             document.getElementById('term').value = card.term;
             document.getElementById('definition').value = card.definition;
+            MathJax.typesetPromise();  // Ensure MathJax re-typesets after loading existing content into fields
         };
         list.appendChild(listItem);
     });
