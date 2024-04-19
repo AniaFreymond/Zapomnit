@@ -1,64 +1,39 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css');
 .container {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+.card-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px;
+    justify-content: space-around;
 }
 
-.flashcard {
-    width: 150px;
-    height: 150px;
+.card-item {
+    width: 150px; 
+    height: 150px; 
     margin: 10px;
-    perspective: 1000px;
-    cursor: pointer;
-}
-
-.flashcard-inner {
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc; 
+    border-radius: 8px;
     position: relative;
-    width: 100%;
-    height: 100%;
+}
+
+.card-content {
     text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
+    padding: 5px;
+    overflow: hidden;
 }
 
-.flashcard:hover .flashcard-inner {
-    transform: rotateY(180deg);
-}
-
-.flashcard-front, .flashcard-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-}
-
-.flashcard-front {
-    background-color: #f1f1f1;
-    color: black;
-    z-index: 2;
-}
-
-.flashcard-back {
-    background-color: #007bff;
-    color: white;
-    transform: rotateY(180deg);
-}
-
-.edit-button {
-    display: block;
-    width: 20px;
-    height: 20px;
+.edit-icon {
     position: absolute;
     bottom: 5px;
     right: 5px;
-    background-image: url('edit-icon.png');
-    background-size: cover;
-    z-index: 3;
+    cursor: pointer;
+    color: #007BFF; 
 }
