@@ -19,8 +19,10 @@ function showCard() {
         const flashcardDiv = document.getElementById('flashcard');
         flashcardDiv.innerHTML = `<strong>${card.term}</strong><p>${card.definition}</p>`;
         flashcardDiv.style.display = 'block';
-        MathJax.typesetPromise();  // This tells MathJax to process the math in the newly updated content
+        
+        MathJax.typesetPromise();  // Ask MathJax to typeset the new content
     } else {
         alert('No flashcards available. Add some and try again.');
     }
 }
+
