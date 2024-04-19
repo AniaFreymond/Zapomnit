@@ -34,7 +34,7 @@ function updateCardList() {
                 <div class="flashcard-front">${card.term}</div>
                 <div class="flashcard-back">${card.definition}</div>
             </div>
-            <span class="edit-button" onclick="editCard('${card.term}')"></span>
+            <span class="edit-button" data-term="${card.term}" onclick="editCard('${card.term}')"></span>
         `;
         list.appendChild(cardElement);
     });
