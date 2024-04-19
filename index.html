@@ -5,26 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zapomnit: Math Flashcards</title>
     <link rel="stylesheet" href="styles.css">
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['\\(', '\\)']],
-          displayMath: [['\\[', '\\]']]
-        },
-        svg: {
-          fontCache: 'global'
-        },
-        startup: {
-          pageReady: function () {
-            return MathJax.startup.defaultPageReady().then(function () {
-              document.getElementById('addCard').addEventListener('click', function () {
-                MathJax.typesetPromise();
-              });
-            });
-          }
-        }
-      };
-    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
@@ -33,11 +14,15 @@
         <div class="card-input">
             <input type="text" id="term" placeholder="Enter Term">
             <textarea id="definition" placeholder="Enter Definition (use LaTeX for math, e.g., \\(x^2\\))"></textarea>
-            <button id="addCard" onclick="addCard()">Add Card</button>
+            <button onclick="addOrUpdateCard()">Save Card</button>
         </div>
         <div class="card-display">
             <button onclick="showCard()">Show Flashcard</button>
             <div class="flashcard" id="flashcard"></div>
+        </div>
+        <div class="card-list">
+            <h3>Saved Cards</h3>
+            <ul id="cardList"></ul>
         </div>
     </div>
     <script src="scripts.js"></script>
