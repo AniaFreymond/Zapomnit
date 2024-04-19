@@ -1,13 +1,25 @@
-let flashcards = [];
+let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
+updateCardList();
 
-function addCard() {
+function addOrUpdateCard() {
     const term = document.getElementById('term').value;
     const definition = document.getElementById('definition').value;
+    const index = flashcards.findIndex(card => card.term === term);
+
     if (term && definition) {
-        flashcards.push({ term, definition });
+        const newCard = { term, definition };
+        if (index !== -1) {
+            flashcards[index] = newCard;
+            alert('Flashcard updated!');
+        } else {
+            flashcards.push(newCard);
+            alert('Flashcard added!');
+        }
+        localStorage.setItem('flashcards', JSON.stringify(flashcards));
         document.getElementById('term').value = '';
         document.getElementById('definition').value = '';
-        alert('Flashcard added!');
+        updateCardList();
+        MathJax.typesetPromise();
     } else {
         alert('Please enter both term and definition.');
     }
@@ -19,10 +31,22 @@ function showCard() {
         const flashcardDiv = document.getElementById('flashcard');
         flashcardDiv.innerHTML = `<strong>${card.term}</strong><p>${card.definition}</p>`;
         flashcardDiv.style.display = 'block';
-        
-        MathJax.typesetPromise();  // Ask MathJax to typeset the new content
+        MathJax.typesetPromise();
     } else {
         alert('No flashcards available. Add some and try again.');
     }
 }
 
+function updateCardList() {
+    const list = document.getElementById('cardList');
+    list.innerHTML = '';
+    flashcards.forEach(card => {
+        const listItem = document.createElement('li');
+        listItem.textContent = card.term;
+        listItem.onclick = function() {
+            document.getElementById('term').value = card.term;
+            document.getElementById('definition').value = card.definition;
+        };
+        list.appendChild(listItem);
+    });
+}
