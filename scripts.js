@@ -2,52 +2,49 @@ let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
 updateCardList();
 
 function addOrUpdateCard() {
-    const term = document.getElementById('term').value;
-    const definition = document.getElementById('definition').value;
-    const index = flashcards.findIndex(card => card.term === term);
+    const term = document.getElementById('term').value.trim();
+    const definition = document.getElementById('definition').value.trim();
+    const existingIndex = flashcards.findIndex(card => card.term === term);
 
+    const newCard = { term, definition };
     if (term && definition) {
-        const newCard = { term, definition };
-        if (index !== -1) {
-            flashcards[index] = newCard;
+        if (existingIndex !== -1) {
+            flashcards[existingIndex] = newCard;
             alert('Flashcard updated!');
         } else {
             flashcards.push(newCard);
             alert('Flashcard added!');
         }
         localStorage.setItem('flashcards', JSON.stringify(flashcards));
-        document.getElementById('term').value = '';
-        document.getElementById('definition').value = '';
         updateCardList();
-        MathJax.typesetPromise();  // Ensure MathJax re-typesets after updating DOM
+        MathJax.typesetPromise();
     } else {
         alert('Please enter both term and definition.');
     }
 }
 
-function showCard() {
-    if (flashcards.length > 0) {
-        const card = flashcards[Math.floor(Math.random() * flashcards.length)];
-        const flashcardDiv = document.getElementById('flashcard');
-        flashcardDiv.innerHTML = `<strong>${card.term}</strong><p>${card.definition}</p>`;
-        flashcardDiv.style.display = 'block';
-        MathJax.typesetPromise();  // Ensure MathJax re-typesets after updating DOM
-    } else {
-        alert('No flashcards available. Add some and try again.');
-    }
-}
-
 function updateCardList() {
     const list = document.getElementById('cardList');
-    list.innerHTML = '';
+    list.innerHTML = ''; // Clear existing entries
     flashcards.forEach(card => {
-        const listItem = document.createElement('li');
-        listItem.textContent = card.term;
-        listItem.onclick = function() {
-            document.getElementById('term').value = card.term;
-            document.getElementById('definition').value = card.definition;
-            MathJax.typesetPromise();  // Ensure MathJax re-typesets after loading existing content into fields
-        };
-        list.appendChild(listItem);
+        const cardElement = document.createElement('div');
+        cardElement.className = 'flashcard';
+        cardElement.innerHTML = `
+            <div class="flashcard-inner">
+                <div class="flashcard-front">${card.term}</div>
+                <div class="flashcard-back">${card.definition}</div>
+            </div>
+            <span class="edit-button" onclick="editCard('${card.term}')"></span>
+        `;
+        list.appendChild(cardElement);
     });
+}
+
+function editCard(term) {
+    const cardToEdit = flashcards.find(card => card.term === term);
+    if (cardToEdit) {
+        document.getElementById('term').value = cardToEdit.term;
+        document.getElementById('definition').value = cardToEdit.definition;
+        MathJax.typesetPromise(); // Re-typeset to render LaTeX in the input fields
+    }
 }
