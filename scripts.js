@@ -1,73 +1,41 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('cardForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const title = document.getElementById('titleInput').value.trim();
-        const definition = document.getElementById('definitionInput').value.trim();
-        if (title && definition) {
-            addCard(title, definition);
-            document.getElementById('titleInput').value = '';
-            document.getElementById('definitionInput').value = '';
-        }
-    });
+window.addEventListener('DOMContentLoaded', () => {
+    const cardContainer = document.getElementById('cardContainer');
+    const cardForm = document.getElementById('cardForm');
+    let cards = JSON.parse(localStorage.getItem('cards') || '[]');
 
-    loadCards();
-});
-
-function addCard(title, definition) {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.innerHTML = `
-        <div class="front">${title}</div>
-        <div class="back" style="display:none;">${definition}</div>
-        <button class="edit-btn">Edit</button>
-    `;
-    document.getElementById('cardsContainer').appendChild(card);
-
-    card.addEventListener('click', function() {
-        const back = card.querySelector('.back');
-        const front = card.querySelector('.front');
-        if (back.style.display === 'none') {
-            back.style.display = 'block';
-            front.style.display = 'none';
-        } else {
-            back.style.display = 'none';
-            front.style.display = 'block';
-        }
-        MathJax.typesetPromise([card]);
-    });
-
-    card.querySelector('.edit-btn').addEventListener('click', function(e) {
-        e.stopPropagation();
-        editCard(card, title, definition);
-    });
-
-    saveCards();
-}
-
-function editCard(card, title, definition) {
-    const newTitle = prompt("Edit the title", title);
-    const newDefinition = prompt("Edit the definition", definition);
-    if (newTitle !== null && newDefinition !== null) {
-        card.querySelector('.front').textContent = newTitle;
-        card.querySelector('.back').textContent = newDefinition;
-        saveCards();
-    }
-}
-
-function saveCards() {
-    const cards = [];
-    document.querySelectorAll('.card').forEach(card => {
-        cards.push({
-            title: card.querySelector('.front').textContent,
-            definition: card.querySelector('.back').textContent
+    function renderCards() {
+        cardContainer.innerHTML = '';
+        cards.forEach((card, index) => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card';
+            cardElement.innerHTML = `
+                <div class="cardInner">
+                    <div class="cardFront">${card.title}</div>
+                    <div class="cardBack"><div>${card.definition}</div><button onclick="editCard(${index})">Edit</button></div>
+                </div>
+            `;
+            cardContainer.appendChild(cardElement);
         });
-    });
-    localStorage.setItem('cards', JSON.stringify(cards));
-}
-
-function loadCards() {
-    const cards = JSON.parse(localStorage.getItem('cards'));
-    if (cards) {
-        cards.forEach(card => addCard(card.title, card.definition));
     }
-}
+
+    cardForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const title = document.getElementById('titleInput').value;
+        const definition = document.getElementById('definitionInput').value;
+        cards.push({ title, definition });
+        localStorage.setItem('cards', JSON.stringify(cards));
+        renderCards();
+        cardForm.reset();
+        MathJax.typeset(); // Update MathJax rendering
+    });
+
+    window.editCard = (index) => {
+        const title = prompt('Edit the title:', cards[index].title);
+        const definition = prompt('Edit the definition:', cards[index].definition);
+        cards[index] = { title, definition };
+        localStorage.setItem('cards', JSON.stringify(cards));
+        renderCards();
+    };
+
+    renderCards();
+});
