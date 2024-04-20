@@ -1,10 +1,16 @@
-document.getElementById('cardForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const title = document.getElementById('titleInput').value;
-    const definition = document.getElementById('definitionInput').value;
-    addCard(title, definition);
-    document.getElementById('titleInput').value = '';
-    document.getElementById('definitionInput').value = '';
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('cardForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const title = document.getElementById('titleInput').value.trim();
+        const definition = document.getElementById('definitionInput').value.trim();
+        if (title && definition) {
+            addCard(title, definition);
+            document.getElementById('titleInput').value = '';
+            document.getElementById('definitionInput').value = '';
+        }
+    });
+
+    loadCards();
 });
 
 function addCard(title, definition) {
@@ -12,22 +18,40 @@ function addCard(title, definition) {
     card.classList.add('card');
     card.innerHTML = `
         <div class="front">${title}</div>
-        <div class="back">${definition}</div>
+        <div class="back" style="display:none;">${definition}</div>
         <button class="edit-btn">Edit</button>
     `;
     document.getElementById('cardsContainer').appendChild(card);
-    card.querySelector('.edit-btn').addEventListener('click', function() {
+
+    card.addEventListener('click', function() {
+        const back = card.querySelector('.back');
+        const front = card.querySelector('.front');
+        if (back.style.display === 'none') {
+            back.style.display = 'block';
+            front.style.display = 'none';
+        } else {
+            back.style.display = 'none';
+            front.style.display = 'block';
+        }
+        MathJax.typesetPromise([card]);
+    });
+
+    card.querySelector('.edit-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
         editCard(card, title, definition);
     });
+
     saveCards();
 }
 
 function editCard(card, title, definition) {
     const newTitle = prompt("Edit the title", title);
     const newDefinition = prompt("Edit the definition", definition);
-    card.querySelector('.front').textContent = newTitle;
-    card.querySelector('.back').textContent = newDefinition;
-    saveCards();
+    if (newTitle !== null && newDefinition !== null) {
+        card.querySelector('.front').textContent = newTitle;
+        card.querySelector('.back').textContent = newDefinition;
+        saveCards();
+    }
 }
 
 function saveCards() {
@@ -47,5 +71,3 @@ function loadCards() {
         cards.forEach(card => addCard(card.title, card.definition));
     }
 }
-
-window.onload = loadCards;
