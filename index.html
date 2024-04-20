@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapomnit</title>
+    <title>Zapomnit - Flashcards</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Zapomnit</h1>
-        <form id="cardForm">
-            <input type="text" id="titleInput" placeholder="Enter card title" required>
-            <textarea id="definitionInput" placeholder="Enter LaTeX definition" required></textarea>
-            <button type="submit">Add Flashcard</button>
-        </form>
-        <div id="cardsContainer"></div>
-    </div>
-
+    <div id="cardContainer"></div>
+    <form id="cardForm">
+        <input type="text" id="titleInput" placeholder="Enter card title" required>
+        <textarea id="definitionInput" placeholder="Enter LaTeX definition" required></textarea>
+        <button type="submit">Add Card</button>
+    </form>
     <script src="script.js"></script>
 </body>
 </html>
