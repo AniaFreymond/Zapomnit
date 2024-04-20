@@ -51,6 +51,11 @@ window.addEventListener('DOMContentLoaded', () => {
         renderCards();
     };
 
+    cardForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    
+    });
+    
     window.deleteCard = (index) => {
         if (confirm('Are you sure you want to delete this card?')) {
             cards.splice(index, 1);
