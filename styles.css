@@ -1,0 +1,36 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css');
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card-item {
+    margin: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    position: relative;
+}
+
+.card-content {
+    margin: 5px;
+}
+
+.edit-icon, .delete-icon {
+    margin-left: 5px;
+    cursor: pointer;
+    color: #007BFF;
+}
+
+.delete-icon {
+    color: red;
+}
