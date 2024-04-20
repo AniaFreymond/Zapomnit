@@ -3,29 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapomnit: Math Flashcards</title>
+    <title>Zapomnit</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Zapomnit: Math Flashcards</h1>
-        <div class="card-input">
-            <input type="text" id="term" placeholder="Enter Term">
-            <textarea id="definition" placeholder="Enter Definition (use LaTeX for math, e.g., \\(x^2\\))"></textarea>
-            <button onclick="addOrUpdateCard()">Save Card</button>
-        </div>
-        <div class="card-display">
-            <button onclick="showCard()">Show Flashcard</button>
-            <div class="flashcard" id="flashcard"></div>
-        </div>
-        <div class="card-list">
-            <h3>Saved Cards</h3>
-            <div id="cardList"></div>
-        </div>
+        <form id="cardForm">
+            <input type="text" id="titleInput" placeholder="Enter card title" required>
+            <textarea id="definitionInput" placeholder="Enter LaTeX definition" required></textarea>
+            <button type="submit">Add Flashcard</button>
+        </form>
+        <div id="cardsContainer"></div>
     </div>
-    <script src="scripts.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
