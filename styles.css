@@ -1,39 +1,79 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css');
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
 .container {
     width: 80%;
-    margin: 20px auto;
-    text-align: center;
-}
-.card-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    margin: auto;
 }
 
-.card-item {
-    width: 150px; 
-    height: 150px; 
-    margin: 10px;
-    background-color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc; 
-    border-radius: 8px;
-    position: relative;
+h1 {
+    color: #333;
 }
 
-.card-content {
-    text-align: center;
-    padding: 5px;
-    overflow: hidden;
+#cardForm {
+    margin-bottom: 20px;
 }
 
-.edit-icon {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #5c67f2;
+    color: white;
+    border: none;
     cursor: pointer;
-    color: #007BFF; 
+}
+
+button:hover {
+    background-color: #4a54e1;
+}
+
+.card {
+    background: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    padding: 20px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.front, .back {
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+}
+
+.front {
+    color: #333;
+}
+
+.back {
+    background: #eee;
+    color: #333;
+    transform: rotateY(180deg);
+}
+
+.edit-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
