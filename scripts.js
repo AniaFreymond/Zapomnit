@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
         cards.forEach((card, index) => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.width = 'auto'; // Adjust based on content
+            cardElement.style.width = 'auto'; 
             const cardInner = document.createElement('div');
             cardInner.className = 'cardInner';
 
@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('cards', JSON.stringify(cards));
         renderCards();
         cardForm.reset();
-        MathJax.typeset(); // Update MathJax rendering
+        MathJax.typeset();
     });
 
     window.editCard = (index) => {
@@ -51,11 +51,6 @@ window.addEventListener('DOMContentLoaded', () => {
         renderCards();
     };
 
-    cardForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    
-    });
-    
     window.deleteCard = (index) => {
         if (confirm('Are you sure you want to delete this card?')) {
             cards.splice(index, 1);
@@ -63,6 +58,5 @@ window.addEventListener('DOMContentLoaded', () => {
             renderCards();
         }
     };
-
     renderCards();
 });
