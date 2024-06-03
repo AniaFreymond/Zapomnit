@@ -1,90 +1,90 @@
-document.addEventListener('DOMContentLoaded', function() {
-    loadCards();
-    document.getElementById('new-card-btn').addEventListener('click', function() {
-        const frontText = prompt("Enter the title for the new card:");
-        const backText = prompt("Enter the LaTeX content for the back of the card:");
-        if (frontText && backText) {
-            createCard(frontText, backText);
-            saveCards();
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('card-form');
+    const flashcardContainer = document.getElementById('flashcard-container');
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const term = document.getElementById('term').value;
+        const definition = document.getElementById('definition').value;
+
+        const card = { term, definition };
+        addCardToDOM(card);
+        saveCardToLocalStorage(card);
+
+        form.reset();
     });
-});
 
-function createCard(frontText, backText, id = null) {
-    const cardContainer = document.createElement('div');
-    cardContainer.className = 'flashcard';
-    cardContainer.dataset.id = id || Date.now();
+    loadCardsFromLocalStorage();
 
-    const cardInner = document.createElement('div');
-    cardInner.className = 'card-inner';
+    function addCardToDOM(card) {
+        const flashcard = document.createElement('div');
+        flashcard.classList.add('flashcard');
 
-    const cardFront = document.createElement('div');
-    cardFront.className = 'card-front';
-    cardFront.textContent = frontText;
+        const cardInner = document.createElement('div');
+        cardInner.classList.add('card-inner');
 
-    const cardBack = document.createElement('div');
-    cardBack.className = 'card-back';
-    cardBack.innerHTML = `$$${backText}$$`;
+        const cardFront = document.createElement('div');
+        cardFront.classList.add('card-front');
+        cardFront.textContent = card.term;
 
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container';
+        const cardBack = document.createElement('div');
+        cardBack.classList.add('card-back');
+        cardBack.innerHTML = `
+            <div>${card.definition}</div>
+            <button class="edit-button">Edit</button>
+            <button class="delete-button">Delete</button>
+        `;
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.onclick = function() {
-        if (confirm("Are you sure you want to delete this card?")) {
-            cardContainer.remove();
-            saveCards();
-        }
-    };
+        cardInner.appendChild(cardFront);
+        cardInner.appendChild(cardBack);
+        flashcard.appendChild(cardInner);
+        flashcardContainer.appendChild(flashcard);
 
-    const editBtn = document.createElement('button');
-    editBtn.textContent = 'Edit';
-    editBtn.onclick = function() {
-        const newFrontText = prompt("Edit the title of the card:", frontText);
-        const newBackText = prompt("Edit the LaTeX content of the card:", backText);
-        if (newFrontText && newBackText) {
-            cardFront.textContent = newFrontText;
-            cardBack.innerHTML = `$$${newBackText}$$`;
-            MathJax.typesetPromise();
-            saveCards();
-        }
-    };
-
-    buttonContainer.appendChild(editBtn);
-    buttonContainer.appendChild(deleteBtn);
-    cardInner.appendChild(cardFront);
-    cardInner.appendChild(cardBack);
-    cardBack.appendChild(buttonContainer);
-    cardContainer.appendChild(cardInner);
-
-    document.getElementById('flashcard-container').appendChild(cardContainer);
-
-    cardInner.addEventListener('click', function(e) {
-        if (!e.target.matches('button')) {
+        cardInner.addEventListener('click', () => {
             cardInner.classList.toggle('is-flipped');
-        }
-    });
+        });
 
-    MathJax.typesetPromise();
-}
+        const deleteButton = cardBack.querySelector('.delete-button');
+        deleteButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            deleteCard(card, flashcard);
+        });
 
-function saveCards() {
-    const cards = [];
-    document.querySelectorAll('.flashcard').forEach(card => {
-        const frontText = card.querySelector('.card-front').textContent;
-        const backText = card.querySelector('.card-back').textContent;
-        const id = card.dataset.id;
-        cards.push({ frontText, backText, id });
-    });
-    localStorage.setItem('cards', JSON.stringify(cards));
-}
-
-function loadCards() {
-    const cards = JSON.parse(localStorage.getItem('cards'));
-    if (cards) {
-        cards.forEach(card => {
-            createCard(card.frontText, card.backText, card.id);
+        const editButton = cardBack.querySelector('.edit-button');
+        editButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            editCard(card, cardInner);
         });
     }
-}
+
+    function saveCardToLocalStorage(card) {
+        let cards = JSON.parse(localStorage.getItem('cards')) || [];
+        cards.push(card);
+        localStorage.setItem('cards', JSON.stringify(cards));
+    }
+
+    function loadCardsFromLocalStorage() {
+        const cards = JSON.parse(localStorage.getItem('cards')) || [];
+        cards.forEach(card => addCardToDOM(card));
+    }
+
+    function deleteCard(card, cardElement) {
+        let cards = JSON.parse(localStorage.getItem('cards')) || [];
+        cards = cards.filter(c => c.term !== card.term || c.definition !== card.definition);
+        localStorage.setItem('cards', JSON.stringify(cards));
+        cardElement.remove();
+    }
+
+    function editCard(card, cardInner) {
+        const term = prompt("Edit term:", card.term);
+        const definition = prompt("Edit definition:", card.definition);
+
+        if (term && definition) {
+            const updatedCard = { term, definition };
+            deleteCard(card, cardInner.parentElement);
+            addCardToDOM(updatedCard);
+            saveCardToLocalStorage(updatedCard);
+        }
+    }
+});
