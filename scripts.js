@@ -1,90 +1,61 @@
-document.addEventListener('DOMContentLoaded', function() {
-    loadCards();
-    document.getElementById('new-card-btn').addEventListener('click', function() {
-        const frontText = prompt("Enter the title for the new card:");
-        const backText = prompt("Enter the LaTeX content for the back of the card:");
-        if (frontText && backText) {
-            createCard(frontText, backText);
-            saveCards();
-        }
-    });
-});
-
-function createCard(frontText, backText, id = null) {
-    const cardContainer = document.createElement('div');
-    cardContainer.className = 'flashcard';
-    cardContainer.dataset.id = id || Date.now(); // Use current timestamp as unique identifier
-
-    const cardInner = document.createElement('div');
-    cardInner.className = 'card-inner';
-
-    const cardFront = document.createElement('div');
-    cardFront.className = 'card-front';
-    cardFront.textContent = frontText;
-
-    const cardBack = document.createElement('div');
-    cardBack.className = 'card-back';
-    cardBack.innerHTML = `$$${backText}$$`;
-
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container';
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.onclick = function() {
-        if (confirm("Are you sure you want to delete this card?")) {
-            cardContainer.remove();
-            saveCards();
-        }
-    };
-
-    const editBtn = document.createElement('button');
-    editBtn.textContent = 'Edit';
-    editBtn.onclick = function() {
-        const newFrontText = prompt("Edit the title of the card:", frontText);
-        const newBackText = prompt("Edit the LaTeX content of the card:", backText);
-        if (newFrontText && newBackText) {
-            cardFront.textContent = newFrontText;
-            cardBack.innerHTML = `$$${newBackText}$$`;
-            MathJax.typesetPromise(); // Re-render all MathJax elements
-            saveCards();
-        }
-    };
-
-    buttonContainer.appendChild(editBtn);
-    buttonContainer.appendChild(deleteBtn);
-    cardInner.appendChild(cardFront);
-    cardInner.appendChild(cardBack);
-    cardInner.appendChild(buttonContainer);
-    cardContainer.appendChild(cardInner);
-
-    document.getElementById('flashcard-container').appendChild(cardContainer);
-
-    cardInner.addEventListener('click', function(e) {
-        if (!e.target.matches('button')) {
-            cardInner.classList.toggle('is-flipped');
-        }
-    });
-
-    MathJax.typesetPromise(); // Re-render all MathJax elements
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
 }
 
-function saveCards() {
-    const cards = [];
-    document.querySelectorAll('.flashcard').forEach(card => {
-        const frontText = card.querySelector('.card-front').textContent;
-        const backText = card.querySelector('.card-back').textContent;
-        const id = card.dataset.id;
-        cards.push({ frontText, backText, id });
-    });
-    localStorage.setItem('cards', JSON.stringify(cards));
+button {
+    padding: 10px 20px;
+    margin: 10px 0;
 }
 
-function loadCards() {
-    const cards = JSON.parse(localStorage.getItem('cards'));
-    if (cards) {
-        cards.forEach(card => {
-            createCard(card.frontText, card.backText, card.id);
-        });
-    }
+.flashcard {
+    width: 200px;
+    height: 100px;
+    perspective: 1000px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card-inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.card-front {
+    background-color: yellow;
+    color: #003366;
+}
+
+.card-back {
+    background-color: white;
+    color: #003366;
+    transform: rotateY(180deg);
+}
+
+.button-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
 }
