@@ -9,9 +9,27 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <div id="flashcard-container"></div>
-    <button id="new-card-btn">Create New Card</button>
-
+    <header>
+        <h1 id="main-title">Zapomnit</h1>
+    </header>
+    <main>
+        <section id="card-creation">
+            <h2>Create New Card</h2>
+            <form id="card-form">
+                <input type="text" id="term" placeholder="Enter term" required>
+                <input type="text" id="definition" placeholder="Enter definition" required>
+                <button type="submit">Create Card</button>
+            </form>
+            <button id="new-card-btn">New Card</button>
+        </section>
+        <section id="flashcards">
+            <h2>Your Flashcards</h2>
+            <div id="flashcard-container"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Zapomnit. All rights reserved.</p>
+    </footer>
     <script src="scripts.js"></script>
 </body>
 </html>
