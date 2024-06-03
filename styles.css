@@ -67,13 +67,13 @@ header {
 }
 
 .card-front {
-    background-color: yellow;
-    color: #0077cc;
+    background-color: #0077cc;
+    color: white; 
 }
 
 .card-back {
-    background-color: white;
-    color: #0077cc;
+    background-color: white; 
+    color: #0077cc; 
     transform: rotateY(180deg);
 }
 
