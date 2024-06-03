@@ -9,7 +9,7 @@ body {
 
 header {
     width: 100%;
-    background-color: #0077cc; /* Deep blue background for the header */
+    background-color: #0077cc;
     padding: 20px 0;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -17,7 +17,7 @@ header {
 
 #main-title {
     color: white;
-    font-size: 36px; /* Large font size for visibility */
+    font-size: 36px;
     margin: 0;
     font-family: 'Arial', sans-serif;
 }
@@ -64,16 +64,17 @@ header {
     padding: 10px;
     box-sizing: border-box;
     border-radius: 5px;
-    color: white;
     font-size: 20px;
 }
 
 .card-front {
-    background-color: #0077cc;
+    background-color: yellow;
+    color: #0077cc;
 }
 
 .card-back {
-    background-color: #ff7700;
+    background-color: white;
+    color: #0077cc;
     transform: rotateY(180deg);
 }
 
@@ -96,11 +97,10 @@ button {
 }
 
 button:hover {
-    background-color: #555; /* Darker shade on hover */
+    background-color: #555;
 }
 
 #new-card-btn {
     margin-top: 20px;
     background-color: #28a745;
 }
-
