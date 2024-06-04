@@ -27,17 +27,19 @@ header {
     flex-wrap: wrap;
     gap: 20px;
     margin-top: 20px;
+    width: 100%;
+    justify-content: center;
 }
 
 .flashcard {
-    width: 300px;
-    height: 200px;
+    width: auto;
+    max-width: 300px;
     perspective: 1000px;
 }
 
 .card-inner {
     width: 100%;
-    height: 100%;
+    height: auto;
     text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
@@ -45,6 +47,9 @@ header {
     cursor: pointer;
     border: 1px solid #ccc;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .card-inner.is-flipped {
@@ -64,6 +69,7 @@ header {
     box-sizing: border-box;
     border-radius: 5px;
     font-size: 20px;
+    flex-direction: column;
 }
 
 .card-front {
