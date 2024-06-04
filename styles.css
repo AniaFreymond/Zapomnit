@@ -88,6 +88,10 @@ header {
 
 .button-container {
     align-self: flex-start;
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
 }
 
 button {
