@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCardToLocalStorage(card);
 
         form.reset();
+        MathJax.typeset();
     });
 
     loadCardsFromLocalStorage();
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cardBack = document.createElement('div');
         cardBack.classList.add('card-back');
         cardBack.innerHTML = `
-            <div>${card.definition}</div>
+            <div>$$${card.definition}$$</div>
             <button class="edit-button">Edit</button>
             <button class="delete-button">Delete</button>
         `;
@@ -56,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
             editCard(card, cardInner);
         });
+
+        MathJax.typeset();
     }
 
     function saveCardToLocalStorage(card) {
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadCardsFromLocalStorage() {
         const cards = JSON.parse(localStorage.getItem('cards')) || [];
         cards.forEach(card => addCardToDOM(card));
+        MathJax.typeset(); 
     }
 
     function deleteCard(card, cardElement) {
@@ -85,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteCard(card, cardInner.parentElement);
             addCardToDOM(updatedCard);
             saveCardToLocalStorage(updatedCard);
+            MathJax.typeset();
         }
     }
 });
