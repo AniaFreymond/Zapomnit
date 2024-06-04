@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveCardToLocalStorage(card);
 
         form.reset();
-        MathJax.typeset();
+        MathJax.typesetPromise();
     });
 
     loadCardsFromLocalStorage();
@@ -31,11 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cardBack = document.createElement('div');
         cardBack.classList.add('card-back');
-        cardBack.innerHTML = `
-            <div>$$${card.definition}$$</div>
-            <button class="edit-button">Edit</button>
-            <button class="delete-button">Delete</button>
-        `;
+        cardBack.innerHTML = `<div>$$${card.definition}$$</div>`;
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('button-container');
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('edit-button');
+        editButton.textContent = 'Edit';
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.textContent = 'Delete';
+
+        buttonContainer.appendChild(editButton);
+        buttonContainer.appendChild(deleteButton);
+        cardBack.appendChild(buttonContainer);
 
         cardInner.appendChild(cardFront);
         cardInner.appendChild(cardBack);
@@ -46,19 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
             cardInner.classList.toggle('is-flipped');
         });
 
-        const deleteButton = cardBack.querySelector('.delete-button');
         deleteButton.addEventListener('click', (event) => {
             event.stopPropagation();
             deleteCard(card, flashcard);
         });
 
-        const editButton = cardBack.querySelector('.edit-button');
         editButton.addEventListener('click', (event) => {
             event.stopPropagation();
             editCard(card, cardInner);
         });
 
-        MathJax.typeset();
+        MathJax.typesetPromise();
     }
 
     function saveCardToLocalStorage(card) {
@@ -70,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadCardsFromLocalStorage() {
         const cards = JSON.parse(localStorage.getItem('cards')) || [];
         cards.forEach(card => addCardToDOM(card));
-        MathJax.typeset(); 
+        MathJax.typesetPromise(); 
     }
 
     function deleteCard(card, cardElement) {
@@ -89,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteCard(card, cardInner.parentElement);
             addCardToDOM(updatedCard);
             saveCardToLocalStorage(updatedCard);
-            MathJax.typeset();
+            MathJax.typesetPromise();
         }
     }
 });
