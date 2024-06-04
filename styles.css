@@ -81,12 +81,13 @@ header {
     background-color: white; 
     color: #0077cc; 
     transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .button-container {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
+    align-self: flex-start;
 }
 
 button {
@@ -97,6 +98,7 @@ button {
     background-color: #666;
     color: white;
     font-size: 12px;
+    margin: 5px;
 }
 
 button:hover {
