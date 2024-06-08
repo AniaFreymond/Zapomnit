@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const flashcardContainer = document.getElementById('flashcard-container');
     const definitionTextarea = document.getElementById('definition');
     let cardIndex = 0;
+
     loadFlashcards();
 
     cardForm.addEventListener('submit', function (event) {
@@ -67,9 +68,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 updateLocalStorage();
             });
+
             deleteButton.addEventListener('click', function (event) {
                 console.log('Delete button clicked');
-                event.stopPropagation();
+                event.stopPropagation(); 
                 const confirmation = confirm("Are you sure you want to delete this card?");
                 if (confirmation) {
                     flashcard.remove();
@@ -88,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
             flashcardContainer.appendChild(flashcard);
 
             saveFlashcard(term, definition);
-        }, index * 100); 
+        }, index * 300); 
     }
 
     function saveFlashcard(term, definition) {
