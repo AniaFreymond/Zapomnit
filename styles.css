@@ -44,8 +44,8 @@ header {
 }
 
 #card-form textarea {
-    resize: none; /* Disable manual resizing */
-    overflow: hidden; /* Hide overflow */
+    resize: none;
+    overflow: hidden;
 }
 
 .button-container {
