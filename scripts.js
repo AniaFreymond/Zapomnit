@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     definitionTextarea.addEventListener('input', function () {
-        this.style.height = 'auto'; // Reset height
+        this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px'; 
     });
 
@@ -67,8 +67,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 updateLocalStorage();
             });
-
-            // Delete button functionality
             deleteButton.addEventListener('click', function (event) {
                 console.log('Delete button clicked');
                 event.stopPropagation();
@@ -89,9 +87,8 @@ document.addEventListener('DOMContentLoaded', function () {
             flashcard.appendChild(cardInner);
             flashcardContainer.appendChild(flashcard);
 
-            // Save flashcard to localStorage
             saveFlashcard(term, definition);
-        }, index * 300); // 300ms delay per card index
+        }, index * 100); 
     }
 
     function saveFlashcard(term, definition) {
