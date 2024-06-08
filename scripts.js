@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     definitionTextarea.addEventListener('input', function () {
         this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px'; 
+        this.style.height = (this.scrollHeight) + 'px';
     });
 
     function addFlashcard(term, definition, index) {
@@ -40,8 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
             content.classList.add('content');
             content.innerText = definition;
 
-            const buttons = document.createElement('div');
-            buttons.classList.add('buttons');
+            MathJax.typesetPromise([cardFront, content]);
 
             const editButton = document.createElement('button');
             editButton.innerText = 'Edit';
@@ -54,34 +53,33 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             editButton.addEventListener('click', function (event) {
-                console.log('Edit button clicked');
-                event.stopPropagation(); 
+                event.stopPropagation();
                 const newTerm = prompt("Enter new term:", cardFront.innerText);
                 const newDefinition = prompt("Enter new definition:", content.innerText);
                 if (newTerm !== null && newTerm.trim() !== '') {
                     cardFront.innerText = newTerm;
-                    console.log('Updated term:', newTerm);
                 }
                 if (newDefinition !== null && newDefinition.trim() !== '') {
                     content.innerText = newDefinition;
-                    console.log('Updated definition:', newDefinition);
                 }
+                MathJax.typesetPromise([cardFront, content]);
                 updateLocalStorage();
             });
 
             deleteButton.addEventListener('click', function (event) {
-                console.log('Delete button clicked');
-                event.stopPropagation(); 
+                event.stopPropagation();
                 const confirmation = confirm("Are you sure you want to delete this card?");
                 if (confirmation) {
                     flashcard.remove();
-                    console.log('Card deleted');
                     updateLocalStorage();
                 }
             });
 
+            const buttons = document.createElement('div');
+            buttons.classList.add('buttons');
             buttons.appendChild(editButton);
             buttons.appendChild(deleteButton);
+
             cardBack.appendChild(content);
             cardBack.appendChild(buttons);
             cardInner.appendChild(cardFront);
@@ -90,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
             flashcardContainer.appendChild(flashcard);
 
             saveFlashcard(term, definition);
-        }, index * 300); 
+        }, index * 300);
     }
 
     function saveFlashcard(term, definition) {
