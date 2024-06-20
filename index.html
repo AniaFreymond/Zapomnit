@@ -19,9 +19,11 @@
         <textarea id="definition" placeholder="Enter definition in Latex code: $$ ... $$ or \( ... \)." required></textarea>
         <div class="button-container">
             <button type="submit">Create Card</button>
+            <button type="button" id="delete-all">Delete All Cards</button>
+	</div>
         </div>
     </form>
-    <div id="flashcard-container"></div>
+    <div id="flashcard-container" draggable="true"></div>
     <script src="scripts.js"></script>
 </body>
 </html>
