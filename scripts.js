@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const flashcardContainer = document.getElementById('flashcard-container');
     const definitionTextarea = document.getElementById('definition');
     let cardIndex = 0;
-
+    
     loadFlashcards();
 
     cardForm.addEventListener('submit', function (event) {
@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
             content.classList.add('content');
             content.innerText = definition;
 
-            MathJax.typesetPromise([cardFront, content]);
+            const buttons = document.createElement('div');
+            buttons.classList.add('buttons');
 
             const editButton = document.createElement('button');
             editButton.innerText = 'Edit';
@@ -62,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (newDefinition !== null && newDefinition.trim() !== '') {
                     content.innerText = newDefinition;
                 }
-                MathJax.typesetPromise([cardFront, content]);
                 updateLocalStorage();
+                MathJax.typesetPromise();
             });
 
             deleteButton.addEventListener('click', function (event) {
@@ -75,20 +76,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            const buttons = document.createElement('div');
-            buttons.classList.add('buttons');
             buttons.appendChild(editButton);
             buttons.appendChild(deleteButton);
-
             cardBack.appendChild(content);
             cardBack.appendChild(buttons);
             cardInner.appendChild(cardFront);
             cardInner.appendChild(cardBack);
             flashcard.appendChild(cardInner);
             flashcardContainer.appendChild(flashcard);
-
+            
             saveFlashcard(term, definition);
-        }, index * 300);
+            
+            MathJax.typesetPromise();
+        }, index * 100);
     }
 
     function saveFlashcard(term, definition) {
