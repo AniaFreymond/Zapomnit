@@ -2,7 +2,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const cardForm = document.getElementById('card-form');
     const flashcardContainer = document.getElementById('flashcard-container');
     const definitionTextarea = document.getElementById('definition');
+    const deleteAllButton = document.getElementById('delete-all');
     let cardIndex = 0;
+
+    deleteAllButton.addEventListener('click', () => {
+        const confirmDelete = confirm("Are you sure you want to delete all cards?");
+        if (confirmDelete) {
+            const confirmDeleteAgain = confirm("This action cannot be undone. Are you absolutely sure?");
+            if (confirmDeleteAgain) {
+                while (flashcardContainer.firstChild) {
+                    flashcardContainer.removeChild(flashcardContainer.firstChild);
+                }
+                localStorage.removeItem('flashcards');
+            }
+        }
+    });
     
     loadFlashcards();
 
