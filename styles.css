@@ -10,7 +10,7 @@ body {
 }
 
 header {
-    width: 80%;
+    width: 83%;
     background: linear-gradient(135deg, #005fa3, #0077cc);
     padding: 20px 0;
     text-align: center;
@@ -178,4 +178,24 @@ header {
 
 #card-form button:hover {
     background: linear-gradient(135deg, #005fa3, #003f7f);
+}
+
+.flashcard.dragging {
+    opacity: 0.5;
+}
+
+#delete-all {
+    background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+#delete-all:hover {
+    background: linear-gradient(135deg, #cc0000, #990000);
 }
