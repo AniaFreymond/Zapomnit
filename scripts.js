@@ -69,29 +69,31 @@ function addFlashcard(term, definition, index) {
         flashcard.classList.add('flashcard');
         flashcard.setAttribute('draggable', true);
 
-
         const cardInner = document.createElement('div');
         cardInner.classList.add('card-inner');
 
         const cardFront = document.createElement('div');
         cardFront.classList.add('card-front');
-        cardFront.innerText = term;
+        cardFront.textContent = term;
 
         const cardBack = document.createElement('div');
         cardBack.classList.add('card-back');
 
         const content = document.createElement('div');
         content.classList.add('content');
-        content.innerText = definition;
+        content.textContent = definition;
+
+        cardFront.setAttribute('data-raw-term', term);
+        content.setAttribute('data-raw-definition', definition);
 
         const buttons = document.createElement('div');
         buttons.classList.add('buttons');
 
         const editButton = document.createElement('button');
-        editButton.innerText = 'Edit';
+        editButton.textContent = 'Edit';
 
         const deleteButton = document.createElement('button');
-        deleteButton.innerText = 'Delete';
+        deleteButton.textContent = 'Delete';
 
         flashcard.addEventListener('click', function () {
             cardInner.classList.toggle('is-flipped');
@@ -126,8 +128,6 @@ function addFlashcard(term, definition, index) {
     }, index * 100);
 }
 
-
-
 function openEditModal(cardFront, content) {
     const modal = document.createElement('div');
     modal.classList.add('modal');
@@ -136,23 +136,25 @@ function openEditModal(cardFront, content) {
     modalContent.classList.add('modal-content');
 
     const termLabel = document.createElement('label');
-    termLabel.innerText = "Edit Term:";
+    termLabel.textContent = "Edit Term:";
     const termInput = document.createElement('textarea');
-    termInput.value = cardFront.innerText;
+    termInput.value = cardFront.getAttribute('data-raw-term');
 
     const definitionLabel = document.createElement('label');
-    definitionLabel.innerText = "Edit Definition:";
+    definitionLabel.textContent = "Edit Definition:";
     const definitionInput = document.createElement('textarea');
-    definitionInput.value = content.innerText;
+    definitionInput.value = content.getAttribute('data-raw-definition');
 
     const saveButton = document.createElement('button');
-    saveButton.innerText = 'Save';
+    saveButton.textContent = 'Save';
     saveButton.addEventListener('click', function () {
         if (termInput.value.trim() !== '') {
-            cardFront.innerText = termInput.value;
+            cardFront.textContent = termInput.value;
+            cardFront.setAttribute('data-raw-term', termInput.value); 
         }
         if (definitionInput.value.trim() !== '') {
-            content.innerText = definitionInput.value;
+            content.textContent = definitionInput.value;
+            content.setAttribute('data-raw-definition', definitionInput.value); 
         }
         closeModal(modal);
         updateLocalStorage();
@@ -160,7 +162,7 @@ function openEditModal(cardFront, content) {
     });
 
     const closeButton = document.createElement('button');
-    closeButton.innerText = 'Cancel';
+    closeButton.textContent = 'Cancel';
     closeButton.addEventListener('click', function () {
         closeModal(modal);
     });
@@ -180,8 +182,6 @@ function closeModal(modal) {
     document.body.removeChild(modal);
 }
 
-
-
     function saveFlashcard(term, definition) {
         let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
         flashcards.push({ term: term, definition: definition });
@@ -199,8 +199,8 @@ function closeModal(modal) {
         let flashcards = [];
         const flashcardElements = document.querySelectorAll('.flashcard');
         flashcardElements.forEach(flashcard => {
-            const term = flashcard.querySelector('.card-front').innerText;
-            const definition = flashcard.querySelector('.content').innerText;
+            const term = flashcard.querySelector('.card-front').textContent;
+            const definition = flashcard.querySelector('.content').textContent;
             flashcards.push({ term: term, definition: definition });
         });
         localStorage.setItem('flashcards', JSON.stringify(flashcards));
