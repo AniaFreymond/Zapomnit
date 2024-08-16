@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    flashcardContainer.innerHTML = '';
+    
     loadFlashcards();
 
     cardForm.addEventListener('submit', function (event) {
