@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         cardForm.reset();
         definitionTextarea.style.height = 'auto';
     });
-
+    
     definitionTextarea.addEventListener('input', function () {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px';
