@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteAllButton = document.getElementById('delete-all');
     const searchBar = document.getElementById('search-bar');
 
-    let cardIndex = 0;
-
     deleteAllButton.addEventListener('click', () => {
         const confirmDelete = confirm("Are you sure you want to delete all cards?");
         if (confirmDelete) {
@@ -41,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
-    
+
     flashcardContainer.innerHTML = '';
 
     loadFlashcards();
@@ -50,9 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         const term = document.getElementById('term').value;
         const definition = document.getElementById('definition').value;
-        addFlashcard(term, definition, cardIndex);
+        createFlashcard(term, definition);
         cardForm.reset();
-        cardIndex++;
         definitionTextarea.style.height = 'auto';
     });
 
@@ -61,67 +58,68 @@ document.addEventListener('DOMContentLoaded', function () {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
-    function addFlashcard(term, definition, index) {
-            const flashcard = document.createElement('div');
-            flashcard.classList.add('flashcard');
-            flashcard.setAttribute('draggable', true);
+    function createFlashcard(term, definition) {
+        addFlashcard(term, definition);
+        saveFlashcard(term, definition);
+    }
 
-            const cardInner = document.createElement('div');
-            cardInner.classList.add('card-inner');
+    function addFlashcard(term, definition) {
+        const flashcard = document.createElement('div');
+        flashcard.classList.add('flashcard');
+        flashcard.setAttribute('draggable', true);
 
-            const cardFront = document.createElement('div');
-            cardFront.classList.add('card-front');
-            cardFront.textContent = term;
+        const cardInner = document.createElement('div');
+        cardInner.classList.add('card-inner');
 
-            const cardBack = document.createElement('div');
-            cardBack.classList.add('card-back');
+        const cardFront = document.createElement('div');
+        cardFront.classList.add('card-front');
+        cardFront.textContent = term;
 
-            const content = document.createElement('div');
-            content.classList.add('content');
-            content.textContent = definition;
+        const cardBack = document.createElement('div');
+        cardBack.classList.add('card-back');
 
-            cardFront.setAttribute('data-raw-term', term);
-            content.setAttribute('data-raw-definition', definition);
+        const content = document.createElement('div');
+        content.classList.add('content');
+        content.textContent = definition;
 
-            const buttons = document.createElement('div');
-            buttons.classList.add('buttons');
+        cardFront.setAttribute('data-raw-term', term);
+        content.setAttribute('data-raw-definition', definition);
 
-            const editButton = document.createElement('button');
-            editButton.textContent = 'Edit';
+        const buttons = document.createElement('div');
+        buttons.classList.add('buttons');
 
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
 
-            flashcard.addEventListener('click', function () {
-                cardInner.classList.toggle('is-flipped');
-            });
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
 
-            editButton.addEventListener('click', function (event) {
-                event.stopPropagation();
-                openEditModal(cardFront, content);
-            });
+        flashcard.addEventListener('click', function () {
+            cardInner.classList.toggle('is-flipped');
+        });
 
-            deleteButton.addEventListener('click', function (event) {
-                event.stopPropagation();
-                const confirmation = confirm("Are you sure you want to delete this card?");
-                if (confirmation) {
-                    flashcard.remove();
-                    updateLocalStorage();
-                }
-            });
+        editButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            openEditModal(cardFront, content);
+        });
 
-            buttons.appendChild(editButton);
-            buttons.appendChild(deleteButton);
-            cardBack.appendChild(content);
-            cardBack.appendChild(buttons);
-            cardInner.appendChild(cardFront);
-            cardInner.appendChild(cardBack);
-            flashcard.appendChild(cardInner);
-            flashcardContainer.insertBefore(flashcard, flashcardContainer.firstChild);
+        deleteButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            const confirmation = confirm("Are you sure you want to delete this card?");
+            if (confirmation) {
+                flashcard.remove();
+                updateLocalStorage();
+            }
+        });
 
-            saveFlashcard(term, definition);
-            
-            MathJax.typesetPromise();
+        buttons.appendChild(editButton);
+        buttons.appendChild(deleteButton);
+        cardBack.appendChild(content);
+        cardBack.appendChild(buttons);
+        cardInner.appendChild(cardFront);
+        cardInner.appendChild(cardBack);
+        flashcard.appendChild(cardInner);
+        flashcardContainer.insertBefore(flashcard, flashcardContainer.firstChild);
     }
 
     function openEditModal(cardFront, content) {
@@ -134,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const termLabel = document.createElement('label');
         termLabel.textContent = "Edit Term:";
         const termInput = document.createElement('textarea');
-        termInput.value = cardFront.getAttribute('data-raw-term'); 
+        termInput.value = cardFront.getAttribute('data-raw-term');
 
         const definitionLabel = document.createElement('label');
         definitionLabel.textContent = "Edit Definition:";
@@ -146,15 +144,14 @@ document.addEventListener('DOMContentLoaded', function () {
         saveButton.addEventListener('click', function () {
             if (termInput.value.trim() !== '') {
                 cardFront.textContent = termInput.value;
-                cardFront.setAttribute('data-raw-term', termInput.value);  
+                cardFront.setAttribute('data-raw-term', termInput.value);
             }
             if (definitionInput.value.trim() !== '') {
                 content.textContent = definitionInput.value;
-                content.setAttribute('data-raw-definition', definitionInput.value); 
+                content.setAttribute('data-raw-definition', definitionInput.value);
             }
             closeModal(modal);
             updateLocalStorage();
-            MathJax.typesetPromise();
         });
 
         const closeButton = document.createElement('button');
@@ -172,30 +169,24 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.appendChild(modalContent);
 
         document.body.appendChild(modal);
+        modal.classList.add('active');
     }
 
     function closeModal(modal) {
+        modal.classList.remove('active'); 
         document.body.removeChild(modal);
     }
 
     function saveFlashcard(term, definition) {
         let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
-        
-        const flashcardExists = flashcards.some(
-            card => card.term === term && card.definition === definition
-        );
-
-        if (!flashcardExists) {
-            flashcards.push({ term: term, definition: definition });
-            localStorage.setItem('flashcards', JSON.stringify(flashcards));
-        }
+        flashcards.push({ term: term, definition: definition });
+        localStorage.setItem('flashcards', JSON.stringify(flashcards));
     }
 
     function loadFlashcards() {
         let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
-
-        flashcards.forEach((card, index) => {
-            addFlashcard(card.term, card.definition, index);
+        flashcards.forEach(card => {
+            addFlashcard(card.term, card.definition);
         });
     }
 
