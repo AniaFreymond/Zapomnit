@@ -17,26 +17,13 @@
     </header>
     <form id="card-form">
         <input type="text" id="term" placeholder="Enter term" required>
-        <textarea id="definition" placeholder="Enter definition in Latex code: $$ ... $$ or \( ... \)." required></textarea>
+        <textarea id="definition" placeholder="Enter definition in LaTeX code: $$ ... $$ or \( ... \)." required></textarea>
         <div class="button-container">
             <button type="submit">Create Card</button>
             <button type="button" id="delete-all">Delete All Cards</button>
         </div>
     </form>
-    <div id="flashcard-container" class="flashcard-container">
-        <div class="flashcard">
-            <div class="card-inner">
-                <div class="card-front">
-                    <div class="content">
-                    </div>
-                </div>
-                <div class="card-back">
-                    <div class="content">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="flashcard-container" class="flashcard-container"></div>
     <script src="scripts.js"></script>
 </body>
 </html>
