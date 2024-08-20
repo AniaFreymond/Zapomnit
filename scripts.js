@@ -120,7 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
         cardInner.appendChild(cardBack);
         flashcard.appendChild(cardInner);
         flashcardContainer.insertBefore(flashcard, flashcardContainer.firstChild);
-    }
+
+        if (window.MathJax) {
+        	MathJax.typesetPromise([flashcard]).catch((err) => console.error(err.message));
+   	}
+}
 
     function openEditModal(cardFront, content) {
         const modal = document.createElement('div');
