@@ -6,7 +6,8 @@ body {
     align-items: center;
     padding: 40px 50px 100px;
     margin: 0;
-    height: 120vh;
+    min-height: 100vh;
+    box-sizing: border-box; 
 }
 
 header {
