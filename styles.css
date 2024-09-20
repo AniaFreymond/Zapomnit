@@ -191,6 +191,7 @@ header {
     background: linear-gradient(135deg, #005fa3, #003f7f);
 }
 
+
 #card-form button {
     background: linear-gradient(135deg, #118ED2, #118ED2);
     color: white;
@@ -255,7 +256,6 @@ header {
     gap: 10px;
 }
 
-
 .modal-content textarea {
     width: 90%;
     height: 100px; 
@@ -293,7 +293,6 @@ header {
     background-color: #005fa3; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
-
 
 #search-bar {
     width: 80%;
