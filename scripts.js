@@ -97,15 +97,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
 
- 	refreshButton.addEventListener('click', function(event) {
-       	    event.stopPropagation(); 
-            location.reload(); 
-   	});
-
-
         flashcard.addEventListener('click', function () {
             cardInner.classList.toggle('is-flipped');
         });
+
+        refreshButton.addEventListener('click', function(event) {
+       	    event.stopPropagation(); 
+            location.reload(); 
+     	});
 
         editButton.addEventListener('click', function (event) {
             event.stopPropagation();
