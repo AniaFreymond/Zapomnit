@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
         buttons.classList.add('buttons');
  
         const refreshButton = document.createElement('button');
-        refreshButton.textContent = 'Refresh';
+        refreshButton.textContent = 'Render';
 
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
