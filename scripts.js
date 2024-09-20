@@ -87,12 +87,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const buttons = document.createElement('div');
         buttons.classList.add('buttons');
+ 
+        const refreshButton = document.createElement('button');
+        refreshButton.textContent = 'Refresh';
 
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+
+ 	refreshButton.addEventListener('click', function(event) {
+       	    event.stopPropagation(); 
+            location.reload(); 
+   	});
+
 
         flashcard.addEventListener('click', function () {
             cardInner.classList.toggle('is-flipped');
@@ -112,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        buttons.appendChild(refreshButton);
         buttons.appendChild(editButton);
         buttons.appendChild(deleteButton);
         cardBack.appendChild(content);
