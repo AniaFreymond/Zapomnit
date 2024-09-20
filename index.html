@@ -23,7 +23,23 @@
             <button type="button" id="delete-all">Delete All Cards</button>
         </div>
     </form>
-    <div id="flashcard-container" class="flashcard-container"></div>
+    <div id="flashcard-container" class="flashcard-container">
+        <div class="flashcard">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="content">Card Front</div>
+                </div>
+                <div class="card-back">
+                    <div class="content">Card Back</div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button id="refresh-button">Render</button>
+                <button class="edit-button">Edit</button>
+                <button class="delete-button">Delete</button>
+            </div>
+        </div>
+    </div>
     <script src="scripts.js"></script>
 </body>
 </html>
