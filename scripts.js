@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteAllButton = document.getElementById('delete-all');
     const searchBar = document.getElementById('search-bar');
 
-    // start of Zap effect
+    // Start of Zap effect
 
     const title = document.getElementById('main-title');
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
 
-        const randomX = Math.random() * 2 - 1; // Values between -1 and 1
+        const randomX = Math.random() * 2 - 1; 
         const randomY = Math.random() * 2 - 1;
 
         particle.style.setProperty('--randomX', randomX);
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // end of Zap effect
+    // End of Zap effect
 
     deleteAllButton.addEventListener('click', () => {
         const confirmDelete = confirm("Are you sure you want to delete all cards?");
