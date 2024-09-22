@@ -313,3 +313,24 @@ header {
 .glow {
     box-shadow: 0 0 15px #ffcc00;
 }
+
+/* Zap effect */
+
+.zap-particle {
+    position: absolute;
+    font-size: 1rem;
+    color: white;
+    animation: explode 2.5s forwards;
+    pointer-events: none;
+}
+
+@keyframes explode {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(calc(200px * (var(--randomX))), calc(200px * (var(--randomY)))) scale(0);
+    }
+}
