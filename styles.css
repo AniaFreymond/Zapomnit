@@ -314,7 +314,7 @@ header {
     box-shadow: 0 0 15px #ffcc00;
 }
 
-/* Zap effect */
+/* Start of Zap effect */
 
 .zap-particle {
     position: absolute;
@@ -334,3 +334,5 @@ header {
         transform: translate(calc(200px * (var(--randomX))), calc(200px * (var(--randomY)))) scale(0);
     }
 }
+
+/* End of Zap effect */
